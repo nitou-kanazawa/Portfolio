@@ -1,29 +1,26 @@
-name: github pages
+name: GitHub Pages
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the code
-      - uses: actions/checkout@v2
+      - name: Checkout the code
+        uses: actions/checkout@v2
 
-      # Install .NET Core SDK
-      - name: Setup .NET Core
+      - name: Install .NET Core SDK
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: "8.0.x"
 
-      # Publish the site
       - name: Publish
         run: dotnet publish MyPortfolio/MyPortfolio.csproj -p:GHPages=true -c:Release -o:public
 
-      # Deploy the site
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
